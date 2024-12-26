@@ -1,0 +1,251 @@
+body {
+    font-family: 'Space Mono', sans-serif;
+    margin: 0;
+    background: black;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 30px
+}
+
+.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 640px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.show #show-video-button {
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px rgb(255, 0, 0);
+    background-color: rgba(255, 255, 255, 0.024);
+    padding: 14px 40px;
+    transition: background-color 1.5s ease;
+}
+
+.show #show-video-button:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.video-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 1500px;
+    text-align: center;
+}
+
+video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding: 10px;
+}
+
+.controls button {
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px rgb(255, 0, 0);
+    background-color: rgba(255, 255, 255, 0.024);
+    padding: 14px 40px;
+    transition: background-color 1.5s ease;
+}
+
+.controls button:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.text{
+    color: white;
+    margin-top: 200px;
+    text-align: center;
+    
+}
+
+
+#volume-slider {
+    appearance: none;
+    width: 150px;
+    height: 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#time-slider {
+    appearance: none;
+    width: 400px;
+    height: 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+#time-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#time-slider::-moz-range-thumb {
+    width: 5px;
+    height: 15px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* 16 Squares grid */
+.squares-container {
+    display: grid;
+    grid-template-columns: repeat(4, 150px); /* 4 columns */
+    grid-gap: 50px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.square {
+    width: 150px;
+    height: 150px;
+    perspective: 1000px; /* 3D perspective */
+    cursor: pointer;
+}
+
+.square .front, .square .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: black;
+    backface-visibility: hidden; /* Prevent the back from being visible when flipped */
+    border-radius: 10px;
+    transition: transform 0.6s; /* Add transition for the flip effect */
+}
+
+.square .front {
+    background-color: #ffffff;
+    z-index: 2;
+}
+
+.square .back {
+    background-color: #ff0000;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.square:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 15px rgb(255, 0, 0);
+    border-radius: 10px;
+}
+
+/* Flip effect for clicked square */
+.square.flipped .front {
+    transform: rotateY(180deg); /* Rotate front side */
+}
+
+.square.flipped .back {
+    transform: rotateY(0deg); /* Show back side */
+}
+
+
+#picked-words {
+    margin-top: 50px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+}
+.picked-list {
+    margin: 10px 0;
+}
+
+.highlight {
+    color: red;
+}
+
+#rules {
+    margin-top: 100px;   
+    font-size: 16px;
+    text-align: center;
+    color: white;
+}
+
+#wordss {
+    margin-top: 50px;   
+    font-size: 16px;
+    text-align: center;
+    color: white;
+}
+
+#clickable-word {
+    cursor: pointer;    
+    color: red;
+    animation: jump 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+
+
+        /* Jumping animation */
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    70% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+    

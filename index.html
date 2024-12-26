@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <title>Interactive YouTube Video and Squares</title>
+</head>
+<body>
+    <div class="show">
+        <button id="show-video-button">2024</button>
+    </div>
+
+    <div class="video-container" id="video-container" style="display: none;">
+        <iframe id="video" width="1200" height="700" src="https://www.youtube.com/embed/Vd8_hhM862Q?si=-9PQaJyZbYket1o4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="controls"></div>
+    </div>
+
+    <div class="text" id="text" style="display: none;">
+        <p>Náhodné veci čo musíte splniť/kúpiť v 2025<br>(keď tam bude niečo moc "drahé" tak aj 2026)<br>Prečítaj si <span id="clickable-word">pravidlá</span></p>
+    </div>
+
+    <div class="squares-container" id="squares-container" style="display: none;">
+        <!-- 16 squares -->
+        <div class="square" data-index="1">
+            <div class="front">1</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="2">
+            <div class="front">2</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="3">
+            <div class="front">3</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="4">
+            <div class="front">4</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="5">
+            <div class="front">5</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="6">
+            <div class="front">6</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="7">
+            <div class="front">7</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="8">
+            <div class="front">8</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="9">
+            <div class="front">9</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="10">
+            <div class="front">10</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="11">
+            <div class="front">11</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="12">
+            <div class="front">12</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="13">
+            <div class="front">13</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="14">
+            <div class="front">14</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="15">
+            <div class="front">15</div>
+            <div class="back"></div>
+        </div>
+        <div class="square" data-index="16">
+            <div class="front">16</div>
+            <div class="back"></div>
+        </div>
+    </div>
+
+    <div id="rules" style="display: none;">
+        <h3><u>Pravidlá:</u></h3>
+        <p>1. Každý môže zvoliť len 6 políčok (keď bude missclick nejde zmeniť)</p>
+        <p>2. Každý musí splniť aspoň 3 veci individuálne ale najlepšie všetky (niektoré sa dajú spoločne ale budú sa rátať len pre jedného)</p>
+        <p>3. Keď sa budú zhodovať tak sa označia červeno a znamená to že to musíte spraviť spoločne (keď budú vyznačené všetky 6 tak všetky alebo keď jedno tak ešte min 2 treba vybrať každý)</p>
+        <p>4. Dodatočné otázky smerujte na mm.Marcelina na ts5 (mm = mastermind)</p>
+    </div>
+
+    <div id="picked-words" style="display: none;">
+        <h3><u>Výsledok:</u></h3>
+        <div id="picked-words-list"></div>
+    </div>
+
+
+
+    <div id="wordss" style="display: none;">
+        <h3><u>Všetko čo sa dalo vybrať:</u></h3>
+        <p>Mačka</p>
+        <p>Dovolenka Bali</p>
+        <p>Dovolenka Maledivy<p>
+        <p>Dovolenka Taliansko</p>
+        <p>Gym</p>
+        <p>Týžden studená sprcha</p>
+        <p>Awp lightning strike Marcelinovy :DDDDDDDDD</p>
+        <p>Zlepšiť sa v cs</p>
+        <p>Masáž</p>
+        <p>Tetovanie</p>
+        <p>Romantická večera</p>
+        <p>Jeden deň obsluha od toho druhého</p>
+        <p>Pozreť si avengers infinity war a end game</p>
+        <p>Auto Anet (kľudne aj šrot)</p>
+        <p>Wellness</p>
+        <p>Týždeň bez cestovín</p>
+
+    </div>
+
+    <script>
+        const button = document.getElementById('show-video-button');
+        const videoContainer = document.getElementById('video-container');
+        const squaresContainer = document.getElementById('squares-container');
+        const squares = document.querySelectorAll('.square');
+        const text = document.getElementById('text');
+        const pickedWordsContainer = document.getElementById('picked-words');
+        const pickedWordsList = document.getElementById('picked-words-list');
+        const rule = document.getElementById('rules');
+        const wordssElement = document.getElementById('wordss');
+
+        document.getElementById('clickable-word').addEventListener('click', function() {
+            rule.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        
+
+        const words = [
+            "Mačka", "Dovolenka Bali", "Týždeň bez cestovín", "Dovolenka Taliansko",
+            "Tetovanie", "Masáž", "Zlepšiť sa v cs", "Dovolenka Maledivy",
+            "Romantická večera", "Jeden deň obsluha od toho druhého", 
+            "Auto Anet (kľudne aj šrot)", "Týždeň ľadová sprcha",
+            "Gym", "Awp lightning strike Marcelinovy :DDDDDDDDD",
+            "Wellness", "Pozreť si avengers infinity war a end game"
+        ];
+
+        let selectedSquares = 0;
+        let currentPickedWords = [];
+        let allPickedWords = [];
+        let roundCounter = 0;
+        const maxRounds = 2;
+
+        // Shuffle array utility function
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // Assign words to squares
+        function assignWords() {
+            const shuffledWords = shuffleArray([...words]);
+            squares.forEach((square, index) => {
+                square.querySelector('.back').innerText = shuffledWords[index];
+            });
+        }
+
+        // Highlight repeated words
+        function highlightRepeats() {
+            if (allPickedWords.length < 2) return;
+
+            const previousRoundWords = allPickedWords[allPickedWords.length - 2];
+            const currentRoundWords = allPickedWords[allPickedWords.length - 1];
+
+            currentRoundWords.forEach((word) => {
+                if (previousRoundWords.includes(word)) {
+                    const pickedEntries = pickedWordsList.querySelectorAll('.picked-list:last-child span');
+                    pickedEntries.forEach((span) => {
+                        if (span.innerText === word) {
+                            span.classList.add('highlight');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Reset squares
+        function resetSquares() {
+           
+            
+
+            squares.forEach((square) => {
+                square.classList.remove('flipped');
+                square.style.pointerEvents = 'auto';
+            });
+
+            // Save and display picked words
+            if (currentPickedWords.length > 0) {
+                const pickedEntry = document.createElement('div');
+                pickedEntry.classList.add('picked-list');
+                pickedEntry.innerHTML = ` ${pickedWordsList.children.length + 1}: ${currentPickedWords.map(word => `<span>${word}</span>`).join('  *  ')}`;
+                pickedWordsList.appendChild(pickedEntry);
+                allPickedWords.push([...currentPickedWords]);
+                highlightRepeats();
+            }
+
+            currentPickedWords = [];
+            selectedSquares = 0;
+            roundCounter++;
+
+            if (roundCounter >= maxRounds) {
+                squares.forEach((square) => {
+                    square.style.pointerEvents = 'none';
+                    wordssElement.style.display = 'block';
+                    pickedWordsContainer.style.display = 'block';
+                    pickedWordsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Disable all squares
+                });
+            } else {
+                assignWords();
+            }
+        }
+
+       
+
+        // Show video and grid
+        button.addEventListener('click', () => {
+            videoContainer.style.display = 'block';
+            squaresContainer.style.display = 'grid';
+            button.style.display = 'none';
+            text.style.display = 'flex';
+            rule.style.display = 'block';
+            assignWords();
+        });
+
+        // Handle square clicks
+        squares.forEach((square) => {
+            square.addEventListener('click', () => {
+                if (square.classList.contains('flipped') || selectedSquares >= 6 || roundCounter >= maxRounds)
+                {
+                    return; 
+                }
+
+                 
+                square.classList.add('flipped');
+                selectedSquares++;
+                currentPickedWords.push(square.querySelector('.back').innerText);
+
+                if (selectedSquares >= 6) {
+                    setTimeout(() => {
+                        resetSquares();
+                    }, 2000); // Wait 1 second before resetting
+                }
+            });
+        });
+    </script>
+</body>
+</html>
